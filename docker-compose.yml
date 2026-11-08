@@ -1,0 +1,27 @@
+services:
+
+  employee-service:
+    build: ./employee-service
+    container_name: employee-service
+    restart: always
+
+  department-service:
+    build: ./department-service
+    container_name: department-service
+    environment:
+      EMPLOYEE_SERVICE_URL: http://employee-service:8000
+    depends_on:
+      - employee-service
+    restart: always
+
+  api-gateway:
+    image: nginx:alpine
+    container_name: api-gateway
+    ports:
+      - "8080:80"
+    volumes:
+      - ./api-gateway/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - employee-service
+      - department-service
+    restart: always
