@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: employee-ingress
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   rules:
     - http:
         paths:
